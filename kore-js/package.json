@@ -1,5 +1,5 @@
 {
-    "name": "korejs",
+    "name": "koribot-js",
     "version": "0.0.0",
     "description": "frontend utility script for Javacript inspired by jquery to manipulate DOM with built-in Object store",
     "author": "Walid C.",
