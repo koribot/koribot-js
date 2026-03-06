@@ -1,5 +1,5 @@
-name: BUILD AND PUBLISH
-run-name: ${{ github.actor }} build and publish 🔨🚀
+name: BUILD
+run-name: ${{ github.actor }} build 🔨
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
         run: npm run build
 
       - name: List build output
-        run: ls -R dist || echo "No dist folder found"
+        run: ls -R kore-js/dist/ || echo "No dist folder found"
 
       - name: Commit and push build output
         run: |
@@ -40,24 +40,5 @@ jobs:
   publish:
     needs: build
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v5
-        with:
-          ref: main
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Publish to npm
-        working-directory: ./kore-js
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    uses: ./.github/workflows/publish.yml  # calls publish.yml
+    secrets: inherit  # passes NPM_TOKEN through
