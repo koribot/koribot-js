@@ -2,7 +2,7 @@ node_modules
 
 *.md
 
-kore-js/dist/*
+#kore-js/dist/*
 
 !README.md
 
