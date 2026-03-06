@@ -1,0 +1,88 @@
+name: BUILD AND PUBLISH
+run-name: ${{ github.actor }} build and publish 🔨🚀
+
+on:
+  push:
+    branches:
+      - '**'
+    # paths-ignore:
+    #   - '*.md'
+    #   - '.gitignore'
+    #   - '.prettierrc'
+    #   - 'LICENSE'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Copy README
+        run: |
+          cp README.md kore-js/README.md
+          echo "✅ README.md copied to kore-js/"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build
+        run: npm run build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            kore-js/dist/
+            kore-js/README.md
+
+  publish:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: kore-js/
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check if version already published
+        id: version_check
+        working-directory: ./kore-js
+        run: |
+          LOCAL_VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          PUBLISHED=$(npm view $PACKAGE_NAME@$LOCAL_VERSION version 2>/dev/null || echo "not_found")
+          if [ "$PUBLISHED" = "$LOCAL_VERSION" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "⏭️ Version $LOCAL_VERSION already published, skipping."
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+            echo "✅ New version $LOCAL_VERSION, will publish."
+          fi
+
+      - name: Publish to npm
+        if: steps.version_check.outputs.skip == 'false'
+        working-directory: ./kore-js
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
