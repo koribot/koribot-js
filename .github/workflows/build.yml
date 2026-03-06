@@ -2,48 +2,53 @@ name: BUILD
 run-name: ${{ github.actor }} build 🔨
 
 on:
-  push:
-    branches:
-      - '**'
-    paths-ignore:
-      - '.github/**'
-      - '*.md'
-      - '.gitignore'
-      - '.prettierrc'
-      - 'LICENSE'
+    push:
+        branches:
+            - '**'
+        paths-ignore:
+            #- '.github/**'
+            - '*.md'
+            - '.gitignore'
+            - '.prettierrc'
+            - 'LICENSE'
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v5
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository
+              uses: actions/checkout@v5
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
+            - name: Copy README
+              run: |
+                  cp README.md kore-js/README.md
+                  echo "✅ README.md copied to kore-js/"
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
 
-      - name: Run build
-        run: npm run build
+            - name: Install dependencies
+              run: npm ci
 
-      - name: List build output
-        run: ls -R kore-js/dist/ || echo "No dist folder found"
+            - name: Run build
+              run: npm run build
 
-      - name: Commit and push build output
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f kore-js/dist/
-          git diff --staged --quiet || git commit -m "chore: update dist [skip ci]"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: List build output
+              run: ls -R kore-js/dist/ || echo "No dist folder found"
 
-  publish:
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/publish.yml  # calls publish.yml
-    secrets: inherit  # passes NPM_TOKEN through
+            - name: Commit and push build output
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git add -f kore-js/dist/
+                  git diff --staged --quiet || git commit -m "chore: update dist [skip ci]"
+                  git push
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    publish:
+        needs: build
+        if: github.ref == 'refs/heads/main'
+        uses: ./.github/workflows/publish.yml # calls publish.yml
+        secrets: inherit # passes NPM_TOKEN through
