@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "scripts": {
+    "build": "node ./src/scripts/build.js --prod && node ./src/scripts/build-dev.js"
+  },
+  "author": "koribot24",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.27.3"
+  }
+}

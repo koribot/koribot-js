@@ -1,0 +1,9 @@
+node_modules
+
+*.md
+
+kore-js/dist/*
+
+!README.md
+
+old-*.txt

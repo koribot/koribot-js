@@ -1,0 +1,46 @@
+{
+    "name": "kore-js",
+    "version": "0.0.0",
+    "description": "frontend utility script for Javacript inspired by jquery to manipulate DOM with built-in Object store",
+    "author": "Walid C.",
+    "license": "MIT",
+    "types": "./index.d.ts",
+    "main": "./main.js",
+    "exports": {
+        ".": {
+            "development": {
+                "import": "./korjs.esm.dev.js",
+                "require": "./dist/kore-js.dev.js",
+                "types": "./index.d.ts"
+            },
+            "production": {
+                "import": "./korjs.esm.prod.js",
+                "require": "./dist/kore-js.js",
+                "types": "./index.d.ts"
+            },
+            "korejs-dev": {
+                "import": "./korjs.esm.dev.js",
+                "require": "./dist/kore-js.dev.js",
+                "types": "./index.d.ts"
+            },
+            "default": {
+                "import": "./korjs.esm.prod.js",
+                "require": "./dist/kore-js.js",
+                "types": "./index.d.ts"
+            }
+        }
+    },
+    "keywords": [
+        "javascript",
+        "dom",
+        "utility",
+        "frontend",
+        "jquery",
+        "dom-manipulation",
+        "object-store"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/koribot/kore-js.git"
+    }
+}
