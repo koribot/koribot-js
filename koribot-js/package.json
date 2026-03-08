@@ -8,26 +8,12 @@
     "main": "./main.js",
     "exports": {
         ".": {
-            "development": {
-                "import": "./koribot-js.esm.dev.js",
-                "require": "./dist/koribot-js.dev.js",
-                "types": "./index.d.ts"
-            },
-            "production": {
-                "import": "./koribot-js.esm.prod.js",
-                "require": "./dist/koribot-js.js",
-                "types": "./index.d.ts"
-            },
-            "korejs-dev": {
-                "import": "./koribot-js.esm.dev.js",
-                "require": "./dist/koribot-js.dev.js",
-                "types": "./index.d.ts"
-            },
-            "default": {
-                "import": "./koribot-js.esm.prod.js",
-                "require": "./dist/koribot-js.js",
-                "types": "./index.d.ts"
-            }
+            "import": "./dist/koribot-js.js",
+            "types": "./index.d.ts"
+        },
+        "./dev": {
+            "import": "./dist/koribot-js.dev.js",
+            "types": "./index.d.ts"
         }
     },
     "keywords": [
@@ -45,9 +31,6 @@
     },
     "files": [
         "dist",
-        "index.d.ts",
-        "koribot-js.esm.dev.js",
-        "koribot-js.esm.prod.js",
         "main.js"
     ]
 }

@@ -793,7 +793,8 @@ export function createStore<T extends object>(
  *
  * @returns An {@link IStore} combined with `Partial<`{@link IComputedStoreDevMethods}`>`.
  */
-export function computed<R = any>(
+// ✅ after
+export function computed<R extends object = any>(
     sources: IStore | IStore[],
     keyOrFn: string | ((...states: any[]) => R),
 ): IStore<R> & Partial<IComputedStoreDevMethods>;

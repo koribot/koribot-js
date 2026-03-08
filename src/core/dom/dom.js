@@ -635,7 +635,8 @@ export function $(selector, props = {}) {
                     } else if (typeof target === 'string') {
                         // HTML string
                         const template = document.createElement('template');
-                        template.innerHTML = target;
+                        const sanitize = _sanitize(target);
+                        template.innerHTML = sanitize;
                         el.appendChild(template.content);
                     } else if (target instanceof Node) {
                         // raw DOM node
@@ -658,7 +659,8 @@ export function $(selector, props = {}) {
                         target.els.forEach((t) => el.insertBefore(t, el.firstChild));
                     } else if (typeof target === 'string') {
                         const template = document.createElement('template');
-                        template.innerHTML = target;
+                        const sanitize = _sanitize(target);
+                        template.innerHTML = sanitize;
                         el.insertBefore(template.content, el.firstChild);
                     } else if (target instanceof Node) {
                         el.insertBefore(target, el.firstChild);

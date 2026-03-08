@@ -1,4 +1,5 @@
 {
+    "name": "koribot-js",
     "type": "module",
     "scripts": {
         "build": "node ./src/scripts/build.js --prod && node ./src/scripts/build-dev.js"

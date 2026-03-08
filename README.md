@@ -12,53 +12,88 @@ A small frontend utility library for JavaScript inspired by jQuery to manipulate
 # How to Build
 
 - run
+
     ```js
      npm install
 
      // this will install esbuild
     ```
+
     then
+
     ```js
      npm run build
 
      // the build-output will be on koribot-js/dist
     ```
 
+# How to use
+
+```js
+<script type="module">
+  import { $ } from 'https://cdn.jsdelivr.net/npm/koribot-js@latest/+esm'
+</script>
+
+// if it does not work do
+<script type="module">
+  import { $ } from 'https://cdn.jsdelivr.net/npm/koribot-js@latest/dist/koribot-js.js'
+</script>
+```
+
+or
+
+```js
+ npm install koribot-js
+```
+
+```js
+//sample
+import { $ } from 'koribot-js';
+
+$('body').html('Hello')
+
+
+//or with dev-tools
+import { $ } from 'koribot-js/dev';
+$('non-existing-selector')
+// this will have an error UI
+```
+
 # APIs
 
 ## DOM
 
-- `$()` — select or create elements, returns a chainable API
-    - `.on()` — attach event listener
-    - `.off()` — remove event listener
-    - `.text()` — set text content (static or reactive)
-    - `.html()` — set inner HTML (static or reactive)
-    - `.attr()` — set attribute (static or reactive)
-    - `.removeAttr()` — remove attribute
-    - `.cls()` — toggle class (static or reactive)
-    - `.addClass()` — add class
-    - `.removeClass()` — remove class
-    - `.style()` — set inline CSS property (static or reactive)
-    - `.show()` — toggle visibility (static or reactive)
+- `$(selector, props={})` — select or create elements, returns a chainable API
+    - `.on(eventName, handler)` — attach event listener
+    - `.off(eventName, handler)` — remove event listener
+    - `.text(source, keyOrFn)` — set text content
+    - `.html(source, keyOrTemplateFn)` — set inner HTML
+    - `.attr(attrName, source, keyOrFn)` — set attribute
+    - `.removeAttr(attrName)` — remove attribute
+    - `.cls(className, source, keyOrFn)` — toggle class
+    - `.addClass(className, source, keyOrFn, conditionFn)` — add class
+    - `.removeClass(className)` — remove class
+    - `.style(cssProp, source, keyOrFn)` — set inline CSS property
+    - `.show(source, keyOrFn)` — toggle visibility
     - `.hide()` — set display none
-    - `.if()` — conditionally render a template (reactive)
-    - `.when()` — two-branch conditional render (reactive)
-    - `.each()` — render a reactive list with LIS diffing
-    - `.val()` — set input value + optional onChange callback
-    - `.checked()` — set checkbox checked state (static or reactive)
-    - `.booleanAttr()` — set boolean DOM property (static or reactive)
-    - `.focus()` — programmatically focus element
-    - `.append()` — append child(ren)
-    - `.prepend()` — prepend child(ren)
-    - `.before()` — insert sibling before
-    - `.after()` — insert sibling after
+    - `.if(source, keyOrFn, templateFn)` — conditionally render a template
+    - `.when(source, keyOrFn, branches)` — two-branch conditional render
+    - `.each(source, keyOrFn, templateFn, uniquekeyFn)` — render a list
+    - `.val(_value, onChangeFn)` — set input value + optional onChange callback
+    - `.checked(source, keyOrFn)` — set checkbox checked state
+    - `.booleanAttr(propName, source, keyOrFn)` — set boolean DOM property
+    - `.focus(source = true, keyOrFn)` — focus element
+    - `.append(...targets)` — append child
+    - `.prepend(...targets)` — prepend child
+    - `.before(...targets)` — insert sibling before
+    - `.after(...targets)` — insert sibling after
     - `.remove()` — remove element from DOM
-    - `.replaceWith()` — replace element with another
-    - `.clone()` — deep clone element
-    - `.find()` — scoped querySelector
-    - `.findAll()` — scoped querySelectorAll
-    - `.el` — raw DOM element (single selector)
-    - `.els` — raw DOM elements (array selector)
+    - `.replaceWith(target)` — replace element with another
+    - `.clone(deep = true)` — deep clone element
+    - `.find(_selector, callbackFn, options)` — scoped querySelector
+    - `.findAll(_selector, callbackFn, options)` — scoped querySelectorAll
+    - `.el` — raw DOM element
+    - `.els` — raw DOM elements
 
 ## Store
 
@@ -71,8 +106,8 @@ A small frontend utility library for JavaScript inspired by jQuery to manipulate
 ## HTML
 
 - `raw\`\``— tagged template literal that marks a string as trusted HTML, bypassing sanitization.
-            Use it when you own the content. Plain strings passed to`.html()`, `.if()`, `.when()`,
-            and `.each()` are always sanitized first internally.
+    Use it when you own the content. Plain strings passed to`.html()`, `.if()`, `.when()`,
+    and `.each()` are always sanitized first internally.
 
 ## Meta
 
@@ -86,12 +121,6 @@ A small frontend utility library for JavaScript inspired by jQuery to manipulate
 
 - `resource(url, options?)` — fetch wrapper returning loading/data/error/status handles
 
-## Scope (SPA — not yet active)
-
-- `createScope()` — create a cleanup scope
-- `withScope()` — run a function inside a scope
-- `registerCleanup()` — register a cleanup function with the active scope
-
 ## Utilities
 
 - `ready(fn)` — run fn when DOM is ready
@@ -101,6 +130,7 @@ A small frontend utility library for JavaScript inspired by jQuery to manipulate
 
 - `koribot-js.js` — minified, production build
 - `koribot-js.dev.js` — development build with devtools, error overlay, and runtime warnings/errors
+- `koribot-js.dev.js.map`
 
 # Note
 

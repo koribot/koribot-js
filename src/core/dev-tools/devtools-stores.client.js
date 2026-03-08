@@ -1,7 +1,5 @@
 // koribot-js/devtools-stores.client.js  (CLIENT ONLY)
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/*******  b3d0286b-a82a-4195-83a2-cc98f7ed2157  *******/
 export function initStoresPanel() {
     const body = document.getElementById('kor-panel-stores-body');
     const clearBtn = document.getElementById('kor-panel-stores-clear');

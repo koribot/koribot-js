@@ -1,1 +1,0 @@
-export * from './dist/koribot-js.dev.js';
